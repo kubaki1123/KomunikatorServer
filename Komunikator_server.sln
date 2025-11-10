@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36616.10 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Komunikator_server", "Komunikator_server\Komunikator_server.vcxproj", "{C829D1B3-4FC5-4D8A-9424-53ABD113C57D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C829D1B3-4FC5-4D8A-9424-53ABD113C57D}.Debug|x64.ActiveCfg = Debug|x64
+		{C829D1B3-4FC5-4D8A-9424-53ABD113C57D}.Debug|x64.Build.0 = Debug|x64
+		{C829D1B3-4FC5-4D8A-9424-53ABD113C57D}.Debug|x86.ActiveCfg = Debug|Win32
+		{C829D1B3-4FC5-4D8A-9424-53ABD113C57D}.Debug|x86.Build.0 = Debug|Win32
+		{C829D1B3-4FC5-4D8A-9424-53ABD113C57D}.Release|x64.ActiveCfg = Release|x64
+		{C829D1B3-4FC5-4D8A-9424-53ABD113C57D}.Release|x64.Build.0 = Release|x64
+		{C829D1B3-4FC5-4D8A-9424-53ABD113C57D}.Release|x86.ActiveCfg = Release|Win32
+		{C829D1B3-4FC5-4D8A-9424-53ABD113C57D}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DB6EA3B9-DA9E-440D-B56C-A20DDC399E95}
+	EndGlobalSection
+EndGlobal

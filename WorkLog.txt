@@ -1,0 +1,16 @@
+Dzień 1: 
+instalacja vcpkg aby uniknąć problemu z ciągłą zmiana ścieżek biblioteki ASIO przy przechodzeniu z komputera na laptop 
+
+Podział projektu na pliki:
+Main.cpp:
+	łączy pliki Server.h i Session.h 
+	tworzy asio::io_context
+	tworzy obiekt Server server(Context,port)
+	wywołuje context.run()
+
+Server.h/Server.cpp:
+	definicja klasy Server która akceptuje nowych klientów 
+
+Session.h/Session.cpp:
+	definicja klasy Session która zarządza połączonym klientem
+
