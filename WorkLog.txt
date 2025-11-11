@@ -1,4 +1,4 @@
-Dzień 1: 
+dzień 1: 
 instalacja vcpkg aby uniknąć problemu z ciągłą zmiana ścieżek biblioteki ASIO przy przechodzeniu z komputera na laptop 
 
 Podział projektu na pliki:
@@ -13,4 +13,23 @@ Server.h/Server.cpp:
 
 Session.h/Session.cpp:
 	definicja klasy Session która zarządza połączonym klientem
+
+
+
+Dzień 2: Implementacja rdzenia serwera ASIO
+Implementacja Server: Poprawnie zaimplementowano konstruktor (inicjalizacja acceptor) oraz asynchroniczną pętlę startAccepting / handleAccept.
+
+Implementacja Session: Stworzono szkielet klasy Session z poprawnym konstruktorem, metodą socket() i start().
+
+Kluczowy problem (rozwiązany): Poprawne użycie funkcji lambda i shared_from_this do obsługi callbacków async_accept (w Server) i async_read_until (w Session).
+
+Kluczowy problem (rozwiązany): Zaimplementowano poprawną logikę pętli czytania w handleRead, w tym rozróżnienie braku błędu, błędu eof (rozłączenie) i innych błędów.
+
+Dodano logikę nicków: Session::handleRead sprawdza teraz, czy pole nick jest puste. Jeśli tak, pierwsza otrzymana wiadomość jest zapisywana jako nick.
+
+Zaimplementowano funkcję Session::parseMessage do parsowania wiadomości w formacie odbiorca:wiadomosc.
+
+Kluczowy problem (Rozwiązany): Zabezpieczono parseMessage przed awarią (wyjściem poza zakres stringa) przez dodanie warunku if (i >= tekst.size()) w pętli while.
+
+Kluczowy problem (Rozwiązany): Naprawiono błąd "race condition" w handleRead przez usunięcie zduplikowanego wywołania async_read_until z bloku if (nick == ""). Pętla czytania jest teraz wywoływana tylko raz na końcu bloku if(!error).
 
