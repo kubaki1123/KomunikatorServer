@@ -1,4 +1,7 @@
 #include"Session.h"
+#include"Server.h"
+#include<iostream>
+#include<string>
 
 Adres Session::parseMessage(std::string tekst) {
 	int i = 0;
@@ -33,7 +36,18 @@ void Session::handleRead(const asio::error_code& error, std::size_t bytes_transf
 		else {
 			Adres nowy_adres = parseMessage(tekst);
 
-			std::cout << "[klient 1]" << tekst << std::endl;
+			std::transform(nowy_adres.odbiorca.begin(), nowy_adres.odbiorca.end(), nowy_adres.odbiorca.begin(),
+				[](unsigned char c) { return std::toupper(c); }
+			);
+			if (nowy_adres.odbiorca == "ALL" ) {
+				server_ref_.broadcast(nick, nowy_adres.wiadomosc);
+			}
+			else if (nowy_adres.odbiorca =="INFO") {
+				server_ref_.sendInfo(shared_from_this());
+			}
+			else {
+				server_ref_.send_private(nick, nowy_adres.odbiorca, nowy_adres.wiadomosc);
+			}
 		}
 		asio::async_read_until(socket_, buffer_, "\n",
 			[this, self = shared_from_this()](const asio::error_code& error, std::size_t bytes_transformed) {
@@ -51,12 +65,22 @@ void Session::handleRead(const asio::error_code& error, std::size_t bytes_transf
 	}
 }
 
-void Session::handleWrite()
+void Session::handleWrite(const asio::error_code& error,std::size_t bytes_transformed)
 {
+	if (error) {
+		std::cout << "blad zapisu dla " << nick << error.message() << std::endl;
+	}
+
 }
 
-Session::Session(asio::io_context& io)
-	:socket_(io)
+std::string Session::get_nickname()
+{
+
+	return nick;
+}
+
+Session::Session(asio::io_context& io,Server& serverRef)
+	:socket_(io), server_ref_(serverRef)
 {
 
 }
@@ -74,4 +98,16 @@ void Session::start()
 		}
 	
 	);
+}
+
+void Session::write(const std::string& message)
+{
+	auto shared_message = std::make_shared<std::string>(message);
+	auto self = shared_from_this();
+	asio::async_write(socket_,asio::buffer(*shared_message),
+		[this, self , shared_message](const asio::error_code& error, std::size_t bytes_transformed) {
+			handleWrite(error,bytes_transformed);
+		}
+		);
+
 }

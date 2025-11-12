@@ -33,3 +33,25 @@ Kluczowy problem (Rozwiązany): Zabezpieczono parseMessage przed awarią (wyjśc
 
 Kluczowy problem (Rozwiązany): Naprawiono błąd "race condition" w handleRead przez usunięcie zduplikowanego wywołania async_read_until z bloku if (nick == ""). Pętla czytania jest teraz wywoływana tylko raz na końcu bloku if(!error).
 
+
+
+
+Dzień 3: Implementacja logiki wysyłania (Broadcast i PrivateMessage)
+
+(Połączenie Session z Server): Zaimplementowano przekazywanie referencji Servera (*this) do konstruktora Session. Session (pracownik) ma teraz "telefon" do Servera (centrali) zapisany w polu server_ref_.
+
+(Implementacja Session::write): Stworzono funkcję Session::write do asynchronicznego wysyłania wiadomości.
+
+Kluczowy problem (Rozwiązany): Rozwiązano krytyczny błąd awarii (związany z czasem życia wiadomości) poprzez kopiowanie std::string message do std::shared_ptr i przechwycenie go w lambdzie async_write.
+
+(Implementacja Server::broadcast / send_private): Dodano i zaimplementowano w Server.cpp logikę rozgłaszania do wszystkich (broadcast) oraz wysyłania prywatnego (send_private). Obie funkcje poprawnie iterują po liście active_sessions i wywołują session->write().
+
+(Finał w Session::handleRead): Spięto wszystko razem. Blok else w handleRead (po sprawdzeniu nicku) teraz poprawnie parsuje wiadomość i wywołuje server_ref_.broadcast lub server_ref_.send_private w zależności od adresata.
+
+Stan: Serwer jest w pełni funkcjonalny. Potrafi przyjmować klientów, nadawać nicki, parsować wiadomości (np. All:hej lub Bob:cześć) i poprawnie rozsyłać je do wszystkich lub do konkretnego adresata.
+
+
+fix 1: Dodano możliwość wypisania Info o dostępnych użytkownikach z nazwa ich nicku
+
+
+
