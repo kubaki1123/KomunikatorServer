@@ -23,7 +23,7 @@ private:
 	Adres parseMessage(std::string tekst);
 public:
 	std::string get_nickname();
-	Session(asio::io_context& io,Server& serverRef);
+	Session(asio::io_context& io, Server& serverRef);
 	asio::ip::tcp::socket& socket();
 	void start();
 	void write(const std::string& message);

@@ -3,7 +3,7 @@
 #include<iostream>
 
 Server::Server(asio::io_context& io, int port)	// definicja konstruktora
-	:accept(io, asio::ip::tcp::endpoint(asio::ip::make_address("127.0.0.1"), port)) //: mowi ze zanim wykonamy kod w {} musimy zainicjalizowac nastepujace pola
+	:io_context_ref_(io), accept(io, asio::ip::tcp::endpoint(asio::ip::make_address("127.0.0.1"), port)) //: mowi ze zanim wykonamy kod w {} musimy zainicjalizowac nastepujace pola
 {
 	std::cout << "nasluchiwanie na porcie" << port << std::endl;
 }
@@ -46,7 +46,7 @@ void Server::handleAccept(std::shared_ptr<Session> new_session, const asio::erro
 
 void Server::startAccepting()
 {
-	auto new_session = std::make_shared<Session>(accept.get_executor().context(),*this);
+	auto new_session = std::make_shared<Session>(io_context_ref_,*this);
 	accept.async_accept(new_session->socket(),
 		[this, new_session](const asio::error_code& error) {
 		handleAccept(new_session, error);
