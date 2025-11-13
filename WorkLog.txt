@@ -51,7 +51,7 @@ Kluczowy problem (Rozwiązany): Rozwiązano krytyczny błąd awarii (związany z
 Stan: Serwer jest w pełni funkcjonalny. Potrafi przyjmować klientów, nadawać nicki, parsować wiadomości (np. All:hej lub Bob:cześć) i poprawnie rozsyłać je do wszystkich lub do konkretnego adresata.
 
 
-fix 1: Dodano możliwość wypisania Info o dostępnych użytkownikach z nazwa ich nicku
+fix 1: Dodano możliwość wypisania Info o dostępnych użytkownikach z nazwa ich nicku, blad podczas kompilacji konstruktor Session oczekuje konkretnego contextu io a funkcja lambda lapie jakikolwiek context
 
 
 
